@@ -5,6 +5,10 @@ export default function TabButton({ children, isActive, onClick }) {
   if (isActive) {
     return <b>{children}</b>;
   }
+  if (isPending) {
+    console.log("pending state rendered");
+    return <b className="pending">{children}</b>;
+  }
   return (
     <button
       onClick={() => {
