@@ -1,4 +1,5 @@
 import { fetchData } from "./data.js";
+import usePromise from "./usePromise.js";
 
 // Note: this component is written using an experimental API
 // that's not yet available in stable versions of React.
@@ -7,7 +8,8 @@ import { fetchData } from "./data.js";
 // that's integrated with Suspense, like Relay or Next.js.
 
 function PostsTab() {
-  const posts = use(fetchData("/posts"));
+  const posts = usePromise(fetchData, "/posts");
+  if (!posts) return null;
   return (
     <ul className="items">
       {posts.map((post) => (

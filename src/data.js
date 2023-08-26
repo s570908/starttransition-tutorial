@@ -4,9 +4,9 @@
 
 let cache = new Map();
 
-export function fetchData(url) {
+export async function fetchData(url) {
   if (!cache.has(url)) {
-    cache.set(url, getData(url));
+    cache.set(url, await getData(url));
   }
   return cache.get(url);
 }
