@@ -1,31 +1,26 @@
-import { memo } from 'react';
+import { memo } from "react";
 
 const PostsTab = memo(function PostsTab() {
   // Log once. The actual slowdown is inside SlowPost.
-  console.log('[ARTIFICIALLY SLOW] Rendering 500 <SlowPost />');
+  console.log("[ARTIFICIALLY SLOW] Rendering 500 <SlowPost />");
 
   let items = [];
   for (let i = 0; i < 500; i++) {
     items.push(<SlowPost key={i} index={i} />);
   }
-  return (
-    <ul className="items">
-      {items}
-    </ul>
-  );
+  return <ul className="items">{items}</ul>;
 });
 
 function SlowPost({ index }) {
   let startTime = performance.now();
-  while (performance.now() - startTime < 1) {
-    // Do nothing for 1 ms per item to emulate extremely slow code
+  // 10 ms를 기다린다.
+  while (performance.now() - startTime < 10) {
+    // Do nothing for 10 ms per item to emulate extremely slow code
   }
 
-  return (
-    <li className="item">
-      Post #{index + 1}
-    </li>
-  );
+  console.log(`SlowPost #${index + 1}: rendered`);
+
+  return <li className="item">Post #{index + 1}</li>;
 }
 
 export default PostsTab;
