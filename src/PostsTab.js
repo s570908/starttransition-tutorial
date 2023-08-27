@@ -1,5 +1,7 @@
-import { fetchData } from "./data.js";
+import { fetchData, getPosts, fetchPosts } from "./data.js";
 import usePromise from "./usePromise.js";
+import useSWR from "swr";
+import fetcher from "./fetcher.js";
 
 // Note: this component is written using an experimental API
 // that's not yet available in stable versions of React.
@@ -8,7 +10,20 @@ import usePromise from "./usePromise.js";
 // that's integrated with Suspense, like Relay or Next.js.
 
 function PostsTab() {
-  const posts = usePromise(fetchData, "/posts");
+  //// Mehtod 1
+  // const posts = usePromise(fetchPosts);
+  //// unwanted loading indicator가 사라지지 않고 나타난다. 이유는 모르겠다.
+  //// Method 2와 method 3에서는 사라진다.
+
+  //// Method 2
+  // const posts = use(fetchData("/posts"));
+
+  //// Method 3
+  const { data, error } = useSWR(`https://dummyjson.com/posts`, fetcher, {
+    suspense: true,
+  });
+  const { posts } = data;
+
   if (!posts) return null;
   return (
     <ul className="items">

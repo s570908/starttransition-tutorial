@@ -4,9 +4,9 @@
 
 let cache = new Map();
 
-export async function fetchData(url) {
+export function fetchData(url) {
   if (!cache.has(url)) {
-    cache.set(url, await getData(url));
+    cache.set(url, getData(url));
   }
   return cache.get(url);
 }
@@ -19,11 +19,7 @@ async function getData(url) {
   }
 }
 
-async function getPosts() {
-  // Add a fake delay to make waiting noticeable.
-  await new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  });
+export async function getPosts() {
   let posts = [];
   for (let i = 0; i < 500; i++) {
     posts.push({
@@ -31,5 +27,23 @@ async function getPosts() {
       title: "Post #" + (i + 1),
     });
   }
+  // Add a fake delay to make waiting noticeable.
+  await new Promise((resolve) => {
+    setTimeout(resolve, 5000);
+  });
   return posts;
+}
+
+// Fetch external data
+export async function fetchPosts() {
+  //let url = `https://jsonplaceholder.typicode.com/posts${userId ? "?userId=" + userId : ""}`;
+  let url = `https://dummyjson.com/posts`;
+  let fetching = fetch(url)
+    .then((res) => res.json())
+    .then((res) => res.posts);
+  // Fetch request has gone well
+  await new Promise((resolve) => {
+    setTimeout(resolve, 5000);
+  });
+  return fetching;
 }

@@ -7,7 +7,7 @@ import ContactTab from "./ContactTab.js";
 export default function TabContainer() {
   const [tab, setTab] = useState("about");
   return (
-    <Suspense fallback={<h1>🌀 Loading...</h1>}>
+    <>
       <TabButton isActive={tab === "about"} onClick={() => setTab("about")}>
         About
       </TabButton>
@@ -18,9 +18,11 @@ export default function TabContainer() {
         Contact
       </TabButton>
       <hr />
-      {tab === "about" && <AboutTab />}
-      {tab === "posts" && <PostsTab />}
-      {tab === "contact" && <ContactTab />}
-    </Suspense>
+      <Suspense fallback={<h1>🌀 Loading...</h1>}>
+        {tab === "about" && <AboutTab />}
+        {tab === "posts" && <PostsTab />}
+        {tab === "contact" && <ContactTab />}
+      </Suspense>
+    </>
   );
 }
